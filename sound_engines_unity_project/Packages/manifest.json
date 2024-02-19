@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "com.csound.csoundunity": "https://github.com/rorywalsh/CsoundUnity.git",
+    "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
     "com.meta.xr.sdk.all": "60.0.0",
     "com.unity.collab-proxy": "2.2.0",
     "com.unity.feature.development": "1.0.1",

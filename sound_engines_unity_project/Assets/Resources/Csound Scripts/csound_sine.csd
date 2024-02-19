@@ -2,7 +2,7 @@
 <CsOptions>
 ;-n -d -m0d 
 ;-odac
--n ; -m0d
+ ; -m0d
 </CsOptions>
 <CsInstruments>
 
@@ -12,12 +12,9 @@ nchnls = 2  ; Number of audio channels
 0dbfs	=	1 
 
 instr 1
-  ; Generate a new frequency between 300 and 1000 Hz whenever kTrig is 1
-  kFreq randh 700, 10
-  ; Generate the sine wave with the changing frequency
-  aOut oscili 1.0, 300 + kFreq
-
-  ; Output the sine wave to left and right channels
+  kFreq init 440
+  kFreq chnget "freq"
+  aOut oscili 1.0, kFreq
   outs aOut, aOut
 endin
 
