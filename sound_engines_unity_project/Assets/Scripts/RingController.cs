@@ -15,7 +15,7 @@ public class RingController : MonoBehaviour
     private List<AudioAgent> _agents = new List<AudioAgent>();
 
     // Start is called before the first frame update
-    private void Awake() {
+    private void Start() {
         for (int i = 0; i < agentsSize; i++) {
             var agent = Instantiate(audioAgentPrefab);
             _agents.Add(agent);
@@ -24,18 +24,13 @@ public class RingController : MonoBehaviour
 
         pokeInteractableAdd.WhenStateChanged += (state) => {
             if (state.NewState == InteractableState.Normal) {
-                var agent = Instantiate(audioAgentPrefab);
-                _agents.Add(agent);
-                sizeLabel.text = "N: " + _agents.Count;
+                AddAgent();
             }
         };
 
         pokeInteractableRemove.WhenStateChanged += (state) => {
-            if (state.NewState == InteractableState.Normal && _agents.Count > 0) {
-                var agent = _agents[0];
-                _agents.Remove(agent);
-                Destroy(agent.gameObject);
-                sizeLabel.text = "N: " + _agents.Count;
+            if (state.NewState == InteractableState.Normal) {
+                RemoveAgent();
             }
         };
     }
@@ -44,17 +39,28 @@ public class RingController : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.A)) {
-            var agent = Instantiate(audioAgentPrefab);
-            _agents.Add(agent);
-            sizeLabel.text = "N: " + _agents.Count;
+            AddAgent();
         }
 
         if(Input.GetKeyDown(KeyCode.D) && _agents.Count > 0) {
+            RemoveAgent();
+        }
+
+    }
+
+    void AddAgent() {
+        var agent = Instantiate(audioAgentPrefab);
+        _agents.Add(agent);
+        sizeLabel.text = "N: " + _agents.Count;
+    }
+
+    void RemoveAgent() {
+        if (_agents.Count > 0) {
             var agent = _agents[0];
+            agent.Stop();
             _agents.Remove(agent);
             Destroy(agent.gameObject);
             sizeLabel.text = "N: " + _agents.Count;
         }
-
     }
 }

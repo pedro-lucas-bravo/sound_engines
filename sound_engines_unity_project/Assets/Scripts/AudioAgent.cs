@@ -13,14 +13,17 @@ public class AudioAgent : MonoBehaviour
 
     private Renderer _renderer;
     private Transform _center;
+    private Transform _trans;
 
     protected virtual void Awake() {
+        _trans = transform;
         _center = GameObject.FindGameObjectWithTag("Center").transform;
         _renderer = GetComponent<Renderer>();
         _renderer.material.color = Color.HSVToRGB(Random.Range(0, 1f), 1f, 1f);
         _currentAngle = Random.value * (2f * Mathf.PI);
         UpdatePosition();
         var frequency = Random.Range(minFrequency, maxFrequency);
+        
     }
 
     private void FixedUpdate() {
@@ -29,9 +32,12 @@ public class AudioAgent : MonoBehaviour
     }
 
     private void UpdatePosition() {
-        transform.position = _center.position + new Vector3(Mathf.Cos(_currentAngle), 0f, Mathf.Sin(_currentAngle)) * radius;
+        _trans.position = _center.position + new Vector3(Mathf.Cos(_currentAngle), 0f, Mathf.Sin(_currentAngle)) * radius;
     }
 
     private float _currentAngle = 0f;
+
+    public virtual void Stop() {
+    }
 
 }
