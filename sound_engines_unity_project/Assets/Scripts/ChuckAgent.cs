@@ -47,7 +47,11 @@ public class ChuckAgent : AudioAgent
 
     public override void Stop() {
         if(_chuckSubInstance != null)
+#if UNITY_ANDROID
             _chuckSubInstance.SetInt(_runId, (System.IntPtr)0);
+#else
+                _chuckSubInstance.SetInt(_runId, 0);
+#endif
     }
 
 }

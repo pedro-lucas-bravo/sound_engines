@@ -1,4 +1,5 @@
 using Oculus.Interaction;
+using Oculus.Platform;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -12,15 +13,28 @@ public class RingController : MonoBehaviour
     public PokeInteractable pokeInteractableAdd;
     public PokeInteractable pokeInteractableRemove;
 
-    private List<AudioAgent> _agents = new List<AudioAgent>();
+    private AudioAgent[] _agents;
+    private string[] _labels;
+    private int maxAgents = 2000;
+    private int _agentCount = 0;
+
+    private void Awake() {
+        //To avoid garbage collection
+        _labels = new string[maxAgents];
+        for (int i = 0; i < maxAgents; i++) {
+            _labels[i] = "N: " + i;
+        }
+        _agents = new AudioAgent[maxAgents];
+    }
 
     // Start is called before the first frame update
     private void Start() {
         for (int i = 0; i < agentsSize; i++) {
             var agent = Instantiate(audioAgentPrefab);
-            _agents.Add(agent);
+            _agents[i] = agent;
         }
-        sizeLabel.text = "N: " + _agents.Count;
+        _agentCount = agentsSize;
+        sizeLabel.text = _labels[_agentCount];
 
         pokeInteractableAdd.WhenStateChanged += (state) => {
             if (state.NewState == InteractableState.Normal) {
@@ -38,11 +52,14 @@ public class RingController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A)) {
+        //OVRInput.Update();
+        if (Input.GetKeyDown(KeyCode.A) ||
+            OVRInput.GetDown(OVRInput.Button.One)) {
             AddAgent();
         }
 
-        if(Input.GetKeyDown(KeyCode.D) && _agents.Count > 0) {
+        if((Input.GetKeyDown(KeyCode.D) ||
+            OVRInput.GetDown(OVRInput.Button.Two)) && _agentCount > 0) {
             RemoveAgent();
         }
 
@@ -50,17 +67,18 @@ public class RingController : MonoBehaviour
 
     void AddAgent() {
         var agent = Instantiate(audioAgentPrefab);
-        _agents.Add(agent);
-        sizeLabel.text = "N: " + _agents.Count;
+        _agents[_agentCount] = agent;
+        _agentCount++;
+        sizeLabel.text = _labels[_agentCount];
     }
 
     void RemoveAgent() {
-        if (_agents.Count > 0) {
-            var agent = _agents[0];
-            agent.Stop();
-            _agents.Remove(agent);
+        if (_agentCount > 0) {
+            _agentCount--;
+            var agent = _agents[_agentCount];
+            agent.Stop();            
             Destroy(agent.gameObject);
-            sizeLabel.text = "N: " + _agents.Count;
+            sizeLabel.text = _labels[_agentCount];
         }
     }
 }
