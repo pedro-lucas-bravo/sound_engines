@@ -13,6 +13,12 @@ public class RingController : MonoBehaviour
     public PokeInteractable pokeInteractableAdd;
     public PokeInteractable pokeInteractableRemove;
 
+    public int AgentCount {
+        get {
+            return _agentCount;
+        }
+    }
+
     private AudioAgent[] _agents;
     private string[] _labels;
     private int maxAgents = 2000;
@@ -65,14 +71,14 @@ public class RingController : MonoBehaviour
 
     }
 
-    void AddAgent() {
+    public void AddAgent() {
         var agent = Instantiate(audioAgentPrefab);
         _agents[_agentCount] = agent;
         _agentCount++;
         sizeLabel.text = _labels[_agentCount];
     }
 
-    void RemoveAgent() {
+    public void RemoveAgent() {
         if (_agentCount > 0) {
             _agentCount--;
             var agent = _agents[_agentCount];
