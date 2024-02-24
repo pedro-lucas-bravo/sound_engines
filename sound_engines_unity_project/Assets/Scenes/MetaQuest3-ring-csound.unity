@@ -1868,9 +1868,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller: {fileID: 1783734331}
   profiler: {fileID: 1783734333}
-  numberOfSources: 3
+  numberOfSources: 10
   numberOfTrialsPerSource: 5
-  numberOfUpDownRounds: 4
+  numberOfUpDownRounds: 20
   restPeriodSec: 1
 --- !u!1 &1899255810
 GameObject:

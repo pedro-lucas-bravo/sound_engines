@@ -1,9 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using TMPro;
 using Unity.Profiling;
-using UnityEditor;
+using Unity.Profiling.LowLevel.Unsafe;
 using UnityEngine;
 
 public class RuntimeProfiler : MonoBehaviour {
@@ -79,10 +78,15 @@ public class RuntimeProfiler : MonoBehaviour {
         systemMemoryRecorder = ProfilerRecorder.StartNew(ProfilerCategory.Memory, "System Used Memory");
         gcMemoryRecorder = ProfilerRecorder.StartNew(ProfilerCategory.Memory, "GC Reserved Memory");
         mainThreadTimeRecorder = ProfilerRecorder.StartNew(ProfilerCategory.Internal, "Main Thread", 15);
+#if UNITY_EDITOR
         audioTimeRecorder = ProfilerRecorder.StartNew(ProfilerCategory.Audio, _audioTimeStat);
+#else
+        audioTimeRecorder = ProfilerRecorder.StartNew(ProfilerCategory.Audio, "Audio.Thread");
+#endif
         audioMemoryRecorder = ProfilerRecorder.StartNew(ProfilerCategory.Audio, "Audio Used Memory");
         isRecording = true;
         ResetMeasurements();
+        //EnumerateProfilerStats();
     }
 
     public void StopRecording(bool clearAllData = true) {
@@ -118,12 +122,14 @@ public class RuntimeProfiler : MonoBehaviour {
 
     string StringfyDataRow(float[] dataRow) {
         var sb = new StringBuilder(500);        
-        sb.AppendLine($"Frame Time: {dataRow[0]:F3} ms");
-        sb.AppendLine($"GC Memory: {dataRow[1]:F3} MB");
-        sb.AppendLine($"System Memory: {dataRow[2]:F3} MB");
-        sb.AppendLine($"Audio Frame Time: {dataRow[3]:F3} ms CPU: {(dataRow[3] / dataRow[0]) * 100f:F3}%");
-        sb.AppendLine($"Audio Memory: {dataRow[4]:F3} MB");
-        sb.AppendLine($"Playing Audio Sources: {dataRow[5]}");
+        var index = 0;
+        sb.AppendLine($"Time: {dataRow[index++]:F3} s");
+        sb.AppendLine($"Frame Time: {dataRow[index++]:F3} ms");
+        sb.AppendLine($"GC Memory: {dataRow[index++]:F3} MB");
+        sb.AppendLine($"System Memory: {dataRow[index++]:F3} MB");
+        sb.AppendLine($"Audio Frame Time: {dataRow[index++]:F3} ms");
+        sb.AppendLine($"Audio Memory: {dataRow[index++]:F3} MB");
+        sb.AppendLine($"Playing Audio Sources: {dataRow[index++]}");
         return sb.ToString();
     }
 
@@ -148,15 +154,17 @@ public class RuntimeProfiler : MonoBehaviour {
             dataRow[index++] = _currentPlayingSources;
             allData.Add(dataRow);
             for (int i = 0; i < currentMeasurements.Length; i++) {
-                currentMeasurements[i] += dataRow[i];
+               currentMeasurements[i] += dataRow[i];
             }
-            currentMeasurementCount++;
+            currentMeasurements[index - 1] = _currentPlayingSources;
+            currentMeasurementCount++;    
+            //Debug.Log("Data collected: " + StringfyDataRow(dataRow));
         }
     }
 
     void AverageMeasurements() {
         if (currentMeasurementCount > 0) {
-            for (int i = 0; i < currentMeasurements.Length; i++) {
+            for (int i = 0; i < currentMeasurements.Length - 1; i++) {
                 currentMeasurements[i] /= currentMeasurementCount;
             }
         }
@@ -167,6 +175,7 @@ public class RuntimeProfiler : MonoBehaviour {
         if (isRecording) {
             if (Time.time % measureInterval < Time.deltaTime) {
                 CollectMeasurement();
+                
             }
             if (currentMeasurementCount >= numberOfMesurementsToShow) {
                 AverageMeasurements();
@@ -205,7 +214,7 @@ public class RuntimeProfiler : MonoBehaviour {
         var fileName = _audioTimeStat + "_" +  _date + "_buff_" + bufferSize + "_sr_" + sampleRate + "_round_" + _round + ".csv";
         while (trySaving) {
             try {
-                string header = "time, frame_t_ms, gc_mem_mb, system_mem_mb, audio_frame_t_ms, audio_memory_mb, sources\n";
+                string header = "time,frame_t_ms,gc_mem_mb,system_mem_mb,audio_frame_t_ms,audio_memory_mb,sources\n";
                 string data = header;
                 for (int i = 0; i < allData.Count; i++) {
                     data += string.Join(",", allData[i]) + "\n";
@@ -223,5 +232,42 @@ public class RuntimeProfiler : MonoBehaviour {
             allData.Clear();
         }
         System.GC.Collect();
+    }
+
+    //https://docs.unity3d.com/ScriptReference/Unity.Profiling.LowLevel.Unsafe.ProfilerRecorderDescription.html
+    struct StatInfo {
+        public ProfilerCategory Cat;
+        public string Name;
+        public ProfilerMarkerDataUnit Unit;
+    }
+
+    static void EnumerateProfilerStats() {
+        var availableStatHandles = new List<ProfilerRecorderHandle>();
+        ProfilerRecorderHandle.GetAvailable(availableStatHandles);
+
+        var availableStats = new List<StatInfo>(availableStatHandles.Count);
+        foreach (var h in availableStatHandles) {
+            var statDesc = ProfilerRecorderHandle.GetDescription(h);
+            var statInfo = new StatInfo() {
+                Cat = statDesc.Category,
+                Name = statDesc.Name,
+                Unit = statDesc.UnitType
+            };
+            availableStats.Add(statInfo);
+        }
+        availableStats.Sort((a, b) => {
+            var result = string.Compare(a.Cat.ToString(), b.Cat.ToString());
+            if (result != 0)
+                return result;
+
+            return string.Compare(a.Name, b.Name);
+        });
+
+        var sb = new StringBuilder("Available stats:\n");
+        foreach (var s in availableStats) {
+            sb.AppendLine($"{(int)s.Cat}\t\t - {s.Name}\t\t - {s.Unit}");
+        }
+
+        Debug.Log(sb.ToString());
     }
 }
