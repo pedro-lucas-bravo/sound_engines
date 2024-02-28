@@ -1054,9 +1054,11 @@ public class ChuckSubInstance : MonoBehaviour
 
         running = true;
 
+        _audioTimeMeasurer = new AudioTimeMeasurer();
     }
+    private AudioTimeMeasurer _audioTimeMeasurer;
 
-    #if UNITY_WEBGL
+#if UNITY_WEBGL
     [DllImport( "__Internal" )]
     private static extern bool initSubChuckInstance( System.UInt32 chuckID, System.UInt32 subChuckID, System.String dacName );
     [DllImport( "__Internal" )]
@@ -1083,7 +1085,7 @@ public class ChuckSubInstance : MonoBehaviour
     {
         unMuteSubChuckInstance( myID );
     }
-    #endif
+#endif
 
     void Update()
     {
@@ -1126,7 +1128,8 @@ public class ChuckSubInstance : MonoBehaviour
     #else
     void OnAudioFilterRead( float[] data, int channels )
     {
-        if( !chuckMainInstance.HasInit() )
+        _audioTimeMeasurer?.TakeStartTime();
+        if ( !chuckMainInstance.HasInit() )
         {
             // my chuck is not ready. be silent.
             Array.Clear( data, 0, data.Length );
@@ -1163,6 +1166,7 @@ public class ChuckSubInstance : MonoBehaviour
                 data[i * channels + j] *= myMonoBuffer[i];
             }
         }
+        _audioTimeMeasurer?.TakeEndTime();
     }
     #endif
 
@@ -1175,6 +1179,10 @@ public class ChuckSubInstance : MonoBehaviour
     public string GetUniqueVariableName( string prefix )
     {
         return chuckMainInstance.GetUniqueVariableName( prefix );
+    }
+
+    private void OnDestroy() {
+        _audioTimeMeasurer.OnDestroy();
     }
 
 }

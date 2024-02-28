@@ -11,13 +11,13 @@ public class RuntimeProfiler : MonoBehaviour {
         Csound,
         Chuck
     }
-
-    [Header("use 'CsoundUnity' ")]
+ 
     public AudioTimeStat audioTimeStat = AudioTimeStat.Csound; 
     public float measureInterval = 0.2f;
     public int numberOfMesurementsToShow = 30;
     public bool showInUI = true;
     public TMP_Text statsLabel;
+    public bool saveToFile = true;
 
     public int CurrentDataCount {
         get {
@@ -157,8 +157,16 @@ public class RuntimeProfiler : MonoBehaviour {
                currentMeasurements[i] += dataRow[i];
             }
             currentMeasurements[index - 1] = _currentPlayingSources;
-            currentMeasurementCount++;    
+            currentMeasurementCount++;
             //Debug.Log("Data collected: " + StringfyDataRow(dataRow));
+            //SHow in debug log all the last samples from AudioTimeMeasurer
+            var totalFrameTime = 0.0;
+            var totalMeters = AudioTimeMeasurer.AllData.Count;
+            for (int i = 0; i < totalMeters; i++) {
+                var sample = AudioTimeMeasurer.AllData[i];
+                totalFrameTime += sample.LastFrameTime;
+            }
+            Debug.LogWarning("Inst: " + totalMeters + " AudioFrameTime: " + totalFrameTime + " ms");
         }
     }
 
@@ -209,23 +217,25 @@ public class RuntimeProfiler : MonoBehaviour {
 
     //Save all data rows to a csv file
     public void SaveToFile(bool clearAllData = true) {
-        bool trySaving = true;
-        string exception = "";
-        var fileName = _audioTimeStat + "_" +  _date + "_buff_" + bufferSize + "_sr_" + sampleRate + "_round_" + _round + ".csv";
-        while (trySaving) {
-            try {
-                string header = "time,frame_t_ms,gc_mem_mb,system_mem_mb,audio_frame_t_ms,audio_memory_mb,sources\n";
-                string data = header;
-                for (int i = 0; i < allData.Count; i++) {
-                    data += string.Join(",", allData[i]) + "\n";
+        if (saveToFile) {
+            bool trySaving = true;
+            string exception = "";
+            var fileName = _audioTimeStat + "_" + _date + "_buff_" + bufferSize + "_sr_" + sampleRate + "_round_" + _round + ".csv";
+            while (trySaving) {
+                try {
+                    string header = "time,frame_t_ms,gc_mem_mb,system_mem_mb,audio_frame_t_ms,audio_memory_mb,sources\n";
+                    string data = header;
+                    for (int i = 0; i < allData.Count; i++) {
+                        data += string.Join(",", allData[i]) + "\n";
+                    }
+                    System.IO.File.WriteAllText(_fileDirectoryPath + "/" + fileName, data);
+                    trySaving = false;
+                } catch (System.Exception e) {
+                    //Writing the message in a log file
+                    exception += e.Message + "\n";
+                    trySaving = true;
+                    System.IO.File.WriteAllText(_fileDirectoryPath + "/" + fileName + "_EXC.logerror", exception);
                 }
-                System.IO.File.WriteAllText(_fileDirectoryPath + "/" + fileName, data);
-                trySaving = false;
-            } catch (System.Exception e) {
-                //Writing the message in a log file
-                exception += e.Message + "\n";
-                trySaving = true;
-                System.IO.File.WriteAllText(_fileDirectoryPath + "/" + fileName + "_EXC.logerror", exception);
             }
         }
         if (clearAllData) {
@@ -271,3 +281,5 @@ public class RuntimeProfiler : MonoBehaviour {
         Debug.Log(sb.ToString());
     }
 }
+
+

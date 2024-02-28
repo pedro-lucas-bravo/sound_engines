@@ -1034,7 +1034,10 @@ public class ChuckMainInstance : MonoBehaviour
 
         // has init
         hasInit = true;
+
+        _audioTimeMeasurer = new AudioTimeMeasurer();
     }
+    private AudioTimeMeasurer _audioTimeMeasurer;
 
     public System.UInt32 GetID()
     {
@@ -1110,8 +1113,9 @@ public class ChuckMainInstance : MonoBehaviour
     #else
     void OnAudioFilterRead( float[] data, int channels )
     {
+        _audioTimeMeasurer?.TakeStartTime();
         // check whether channels is correct
-        if( channels != myNumChannels )
+        if ( channels != myNumChannels )
         {
             // sadness -- num channels has changed so we must reconstruct myOutBuffer
             myNumChannels = channels;
@@ -1131,6 +1135,7 @@ public class ChuckMainInstance : MonoBehaviour
 
         // copy output back to data, which is now output
         Array.Copy( myOutBuffer, data, data.Length );
+        _audioTimeMeasurer?.TakeEndTime();
     }
     #endif
 
@@ -1176,5 +1181,6 @@ public class ChuckMainInstance : MonoBehaviour
     private void OnDestroy()
     {
         Chuck.Manager.CleanupFilter( myChuckId );
+        _audioTimeMeasurer.OnDestroy();
     }
 }

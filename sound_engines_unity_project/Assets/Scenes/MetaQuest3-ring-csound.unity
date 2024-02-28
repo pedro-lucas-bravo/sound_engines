@@ -1854,6 +1854,7 @@ MonoBehaviour:
   numberOfMesurementsToShow: 3
   showInUI: 0
   statsLabel: {fileID: 1899255812}
+  saveToFile: 0
 --- !u!114 &1783734334
 MonoBehaviour:
   m_ObjectHideFlags: 0
