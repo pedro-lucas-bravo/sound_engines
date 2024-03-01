@@ -3,8 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CsoundAgent : AudioAgent
-{   
+public class CsoundSine : AudioAgent
+{
+    [Header("Audio Params")]
+    public float minFrequency = 220.0f;
+    public float maxFrequency = 1760.0f;
+
     private CsoundUnity _csoundObject;
 
     protected override void Awake() {

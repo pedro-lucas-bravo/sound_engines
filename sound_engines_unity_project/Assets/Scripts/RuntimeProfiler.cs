@@ -36,7 +36,7 @@ public class RuntimeProfiler : MonoBehaviour {
     ProfilerRecorder systemMemoryRecorder;
     ProfilerRecorder gcMemoryRecorder;
     ProfilerRecorder mainThreadTimeRecorder;
-    ProfilerRecorder audioTimeRecorder;
+    //ProfilerRecorder audioTimeRecorder;
     ProfilerRecorder audioMemoryRecorder;
 
     private string _audioTimeStat;
@@ -78,11 +78,11 @@ public class RuntimeProfiler : MonoBehaviour {
         systemMemoryRecorder = ProfilerRecorder.StartNew(ProfilerCategory.Memory, "System Used Memory");
         gcMemoryRecorder = ProfilerRecorder.StartNew(ProfilerCategory.Memory, "GC Reserved Memory");
         mainThreadTimeRecorder = ProfilerRecorder.StartNew(ProfilerCategory.Internal, "Main Thread", 15);
-#if UNITY_EDITOR
-        audioTimeRecorder = ProfilerRecorder.StartNew(ProfilerCategory.Audio, _audioTimeStat);
-#else
-        audioTimeRecorder = ProfilerRecorder.StartNew(ProfilerCategory.Audio, "Audio.Thread");
-#endif
+//#if UNITY_EDITOR
+//        audioTimeRecorder = ProfilerRecorder.StartNew(ProfilerCategory.Audio, _audioTimeStat);
+//#else
+//        audioTimeRecorder = ProfilerRecorder.StartNew(ProfilerCategory.Audio, "Audio.Thread");
+//#endif
         audioMemoryRecorder = ProfilerRecorder.StartNew(ProfilerCategory.Audio, "Audio Used Memory");
         isRecording = true;
         ResetMeasurements();
@@ -93,7 +93,7 @@ public class RuntimeProfiler : MonoBehaviour {
         systemMemoryRecorder.Dispose();
         gcMemoryRecorder.Dispose();
         mainThreadTimeRecorder.Dispose();
-        audioTimeRecorder.Dispose();
+        //audioTimeRecorder.Dispose();
         audioMemoryRecorder.Dispose();
         isRecording = false;
         if (clearAllData) {
@@ -141,33 +141,33 @@ public class RuntimeProfiler : MonoBehaviour {
     }
 
     void CollectMeasurement() {
-        var audioTime = audioTimeRecorder.LastValue * (1e-6f);
-        if (_currentPlayingSources == 0 || audioTime > 0.000001) {
-            var dataRow = new float[N_dataFields];
-            var index = 0;
-            dataRow[index++] = Time.timeSinceLevelLoad;
-            dataRow[index++] = mainThreadTimeRecorder.LastValue * (1e-6f);
-            dataRow[index++] = gcMemoryRecorder.LastValue / (float)(1024 * 1024);
-            dataRow[index++] = systemMemoryRecorder.LastValue / (float)(1024 * 1024);
-            dataRow[index++] = audioTime;
-            dataRow[index++] = audioMemoryRecorder.LastValue / (float)(1024 * 1024);
-            dataRow[index++] = _currentPlayingSources;
-            allData.Add(dataRow);
-            for (int i = 0; i < currentMeasurements.Length; i++) {
-               currentMeasurements[i] += dataRow[i];
-            }
-            currentMeasurements[index - 1] = _currentPlayingSources;
-            currentMeasurementCount++;
-            //Debug.Log("Data collected: " + StringfyDataRow(dataRow));
-            //SHow in debug log all the last samples from AudioTimeMeasurer
-            var totalFrameTime = 0.0;
-            var totalMeters = AudioTimeMeasurer.AllData.Count;
-            for (int i = 0; i < totalMeters; i++) {
-                var sample = AudioTimeMeasurer.AllData[i];
-                totalFrameTime += sample.LastFrameTime;
-            }
-            Debug.LogWarning("Inst: " + totalMeters + " AudioFrameTime: " + totalFrameTime + " ms");
+        var totalAudioFrameTime = 0.0;
+        var totalMeters = AudioTimeMeasurer.AllData.Count;
+        for (int i = 0; i < totalMeters; i++) {
+            var sample = AudioTimeMeasurer.AllData[i];
+            totalAudioFrameTime += sample.LastFrameTime;
         }
+
+        //var audioTime = audioTimeRecorder.LastValue * (1e-6f);
+        //if (_currentPlayingSources == 0 || audioTime > 0.000001) {
+        var dataRow = new float[N_dataFields];
+        var index = 0;
+        dataRow[index++] = Time.timeSinceLevelLoad;
+        dataRow[index++] = mainThreadTimeRecorder.LastValue * (1e-6f);
+        dataRow[index++] = gcMemoryRecorder.LastValue / (float)(1024 * 1024);
+        dataRow[index++] = systemMemoryRecorder.LastValue / (float)(1024 * 1024);
+        dataRow[index++] = (float)totalAudioFrameTime;//audioTime;
+        dataRow[index++] = audioMemoryRecorder.LastValue / (float)(1024 * 1024);
+        dataRow[index++] = _currentPlayingSources;
+        allData.Add(dataRow);
+        for (int i = 0; i < currentMeasurements.Length; i++) {
+            currentMeasurements[i] += dataRow[i];
+        }
+        currentMeasurements[index - 1] = _currentPlayingSources;
+        currentMeasurementCount++;
+            //Debug.Log("Data collected: " + StringfyDataRow(dataRow));
+            //Debug.LogWarning("Inst: " + totalMeters + " AudioFrameTime: " + totalAudioFrameTime + " ms");
+        //}
     }
 
     void AverageMeasurements() {

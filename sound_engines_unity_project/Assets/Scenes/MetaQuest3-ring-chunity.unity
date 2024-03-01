@@ -1769,7 +1769,7 @@ MonoBehaviour:
   numberOfMesurementsToShow: 3
   showInUI: 0
   statsLabel: {fileID: 2033783124}
-  saveToFile: 0
+  saveToFile: 1
 --- !u!1 &1896979979
 GameObject:
   m_ObjectHideFlags: 0

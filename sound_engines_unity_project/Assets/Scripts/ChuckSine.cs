@@ -2,8 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChuckAgent : AudioAgent
+public class ChuckSine : AudioAgent
 {
+    [Header("Audio Params")]
+    public float minFrequency = 220.0f;
+    public float maxFrequency = 1760.0f;
+
     public bool useIndependentMain = false;
 
 

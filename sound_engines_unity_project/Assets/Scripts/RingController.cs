@@ -59,13 +59,13 @@ public class RingController : MonoBehaviour
     void Update()
     {
         //OVRInput.Update();
-        if (Input.GetKeyDown(KeyCode.A) ||
-            OVRInput.GetDown(OVRInput.Button.One)) {
+        if (Input.GetKeyDown(KeyCode.A) 
+            /*|| OVRInput.GetDown(OVRInput.Button.One)*/) {
             AddAgent();
         }
 
-        if((Input.GetKeyDown(KeyCode.D) ||
-            OVRInput.GetDown(OVRInput.Button.Two)) && _agentCount > 0) {
+        if(Input.GetKeyDown(KeyCode.D) 
+            /*|| OVRInput.GetDown(OVRInput.Button.Two)) && _agentCount > 0*/) {
             RemoveAgent();
         }
 

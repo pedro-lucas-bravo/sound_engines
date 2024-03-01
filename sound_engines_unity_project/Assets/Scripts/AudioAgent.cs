@@ -4,10 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class AudioAgent : MonoBehaviour
-{
-
-    public float minFrequency = 220.0f;
-    public float maxFrequency = 1760.0f;
+{    
     public float radius = 1.0f;
     public float speed = 2.0f;
 
@@ -22,7 +19,6 @@ public class AudioAgent : MonoBehaviour
         _renderer.material.color = Color.HSVToRGB(Random.Range(0, 1f), 1f, 1f);
         _currentAngle = Random.value * (2f * Mathf.PI);
         UpdatePosition();
-        var frequency = Random.Range(minFrequency, maxFrequency);
         
     }
 
