@@ -23,12 +23,20 @@ public class CsoundSimpleSynthe : AudioAgent
         _changeTimer = changePeriod;
     }
 
+    bool _playRound = true;
     private void Update() {
         if(!_csoundObject.IsInitialized) return;
 
         _changeTimer += Time.deltaTime;
         if(_changeTimer >= changePeriod) {
             _changeTimer = 0;
+            _playRound = !_playRound;
+            if (_playRound) {
+                // instantly stop instrument #1
+                _csoundObject.SendScoreEvent("i-1 0 0");
+                return;
+            }
+            
             //Frequency freq
             var frequency = Random.Range(minFrequency, maxFrequency);
             _csoundObject.SetChannel("freq", frequency);
@@ -43,6 +51,9 @@ public class CsoundSimpleSynthe : AudioAgent
             _csoundObject.SetChannel("revtime", reverb);
             //gain
             _csoundObject.SetChannel("gain", gain);
+
+            // instantly start instrument #1 with an indefinite duration
+            _csoundObject.SendScoreEvent("i1 0 -1 0.01 0.2 0.7 0.5");
 
             //Debug.Log($"freq: {frequency}, fc: {cuttoff}, Q: {resonance}, revtime: {reverb}");
         }

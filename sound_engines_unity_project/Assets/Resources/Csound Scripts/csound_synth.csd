@@ -17,6 +17,11 @@ instr 1
     kGain init 0.1 ; initial gain
     kRevTime init 2 ; initial reverb time
 
+    iAttack = p4
+    iDecay = p5
+    iSustain = p6
+    iRelease = p7
+
     kfreq chnget "freq"
     kQ chnget "Q"
     kfc chnget "fc"
@@ -27,24 +32,17 @@ instr 1
     afilter moogladder asig, kfc, kQ ; lowpass filter, cutoff 'ifc' and resonance 'iQ'
     arev reverb afilter, 2 ; reverb, 2 seconds
 
-    out arev*kGain ; sum signals, apply gain 'iGain', and output
+    iAmp init 0.5 ; initial amplitude
 
-/*     kfreq init 440
-    kQ init 30
+    ; Steps through segments while a gate from midikey2 in the score file is set to turnon 
+    kEnv linsegr 0, iAttack, iAmp, iDecay, iSustain, -1, iSustain, iRelease, 0   ; -1 means hold until turnoff
 
-    kfreq chnget "freq"
-    kQ chnget "q"
-    kfc chnget "fc" 
-    kGain chnget "gain"
-
-    asig vco2 0.5, kfreq
-    aOut lowres asig, kfc, kQ
-    outs aOut*kGain */
+    out arev*kEnv*kGain ; sum signals, apply gain 'iGain', and output
 endin
 
 </CsInstruments>
 <CsScore>
 ; Play Instrument 1 infinitely
-i1 0 z
+;i1 0 z
 </CsScore>
 </CsoundSynthesizer>

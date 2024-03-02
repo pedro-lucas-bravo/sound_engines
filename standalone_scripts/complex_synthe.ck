@@ -1,12 +1,12 @@
 // Synthesizer parameters
 0.5 => float Q; // Resonance for the low-pass filter
-800 => float fc; // Cutoff frequency for the low-pass filter
+1000 => float fc; // Cutoff frequency for the low-pass filter
 1 => float revMix; // Reverb mix: 0.0 (dry) - 1.0 (wet)
 //0.5 => float feedback; // Delay feedback
-0.1 => float G; // Gain
+0.01 => float G; // Gain
 
 // Oscillator
-SawOsc osc => LPF filter => JCRev reverb => Gain gain => dac;
+SawOsc osc => LPF filter => PRCRev reverb => Gain gain => dac;
 
 // Set the parameters
 fc => filter.freq;

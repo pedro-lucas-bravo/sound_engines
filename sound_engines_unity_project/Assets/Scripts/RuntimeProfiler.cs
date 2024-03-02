@@ -282,4 +282,39 @@ public class RuntimeProfiler : MonoBehaviour {
     }
 }
 
+public class AudioTimeMeasurer {
+    public static List<AudioTimeMeasurer> AllData = new List<AudioTimeMeasurer>();
+    public double LastFrameTime { 
+        get { 
+            lock (lockObject) {
+                return _lastFrameTime;
+            }
+        } 
+    }
 
+    private double _lastFrameTime;
+
+    private object lockObject = new object();
+
+    private System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
+
+    public AudioTimeMeasurer() {
+        AllData.Add(this);
+    }
+
+    public void TakeStartTime() {
+        stopwatch.Reset();
+        stopwatch.Start();
+    }
+
+    public void TakeEndTime() {
+        stopwatch.Stop();
+        lock (lockObject) {
+            _lastFrameTime = stopwatch.Elapsed.TotalMilliseconds;
+        }
+    }
+
+    public void OnDestroy() {
+        AllData.Remove(this);
+    }
+}
