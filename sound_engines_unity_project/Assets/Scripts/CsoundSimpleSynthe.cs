@@ -53,7 +53,7 @@ public class CsoundSimpleSynthe : AudioAgent
             _csoundObject.SetChannel("gain", gain);
 
             // instantly start instrument #1 with an indefinite duration
-            _csoundObject.SendScoreEvent("i1 0 -1 0.01 0.2 0.7 0.5");
+            _csoundObject.SendScoreEvent("i1 0 -1 0.1 0.2 0.7 0.5");
 
             //Debug.Log($"freq: {frequency}, fc: {cuttoff}, Q: {resonance}, revtime: {reverb}");
         }

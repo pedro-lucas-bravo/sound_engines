@@ -28,11 +28,11 @@ instr 1
     kGain chnget "gain"
     kRevTime chnget "revtime"
 
-    asig vco2 0.5, kfreq ; sawtooth oscillator generates signal
-    afilter moogladder asig, kfc, kQ ; lowpass filter, cutoff 'ifc' and resonance 'iQ'
+    asig vco2 1.0, kfreq ; sawtooth oscillator generates signal
+    afilter lowres asig, kfc, kQ ; lowpass filter, cutoff 'ifc' and resonance 'iQ'; looks lile lowres is more efficient than moogladder
     arev reverb afilter, 2 ; reverb, 2 seconds
 
-    iAmp init 0.5 ; initial amplitude
+    iAmp init 1.0 ; initial amplitude
 
     ; Steps through segments while a gate from midikey2 in the score file is set to turnon 
     kEnv linsegr 0, iAttack, iAmp, iDecay, iSustain, -1, iSustain, iRelease, 0   ; -1 means hold until turnoff

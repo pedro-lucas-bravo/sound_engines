@@ -1714,7 +1714,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1eeab388e3f27ff499d86c194b4b5d09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioAgentPrefab: {fileID: 4858429152800764690, guid: a506b106e8a24f240afb33239d01e0e5, type: 3}
+  audioAgentPrefab: {fileID: 3232080569721788308, guid: f70de506e986d26429e94615a07e2675, type: 3}
   agentsSize: 0
   sizeLabel: {fileID: 1204073060}
   pokeInteractableAdd: {fileID: 1299802904}
@@ -1748,9 +1748,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller: {fileID: 1783734331}
   profiler: {fileID: 1783734334}
-  numberOfSources: 10
+  numberOfSources: 50
   numberOfTrialsPerSource: 5
-  numberOfUpDownRounds: 20
+  numberOfUpDownRounds: 1
   restPeriodSec: 1
 --- !u!114 &1783734334
 MonoBehaviour:
@@ -1769,7 +1769,7 @@ MonoBehaviour:
   numberOfMesurementsToShow: 3
   showInUI: 0
   statsLabel: {fileID: 2033783124}
-  saveToFile: 1
+  saveToFile: 0
 --- !u!1 &1896979979
 GameObject:
   m_ObjectHideFlags: 0

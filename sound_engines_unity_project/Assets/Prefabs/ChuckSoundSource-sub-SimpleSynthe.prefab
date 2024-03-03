@@ -13,10 +13,10 @@ GameObject:
   - component: {fileID: 4011272227806313021}
   - component: {fileID: 2735359352920686302}
   - component: {fileID: 2530438197765796718}
-  - component: {fileID: 5008525086129130151}
-  - component: {fileID: 211594071149825916}
+  - component: {fileID: 1293807796326982241}
+  - component: {fileID: 3232080569721788308}
   m_Layer: 0
-  m_Name: CsoundSoundSource-SimpleSynthe
+  m_Name: ChuckSoundSource-sub-SimpleSynthe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -204,7 +204,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &5008525086129130151
+--- !u!114 &1293807796326982241
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -213,52 +213,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 7107237044999467779}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d20258c641c94f0ea3dc32cfe3de904, type: 3}
+  m_Script: {fileID: 11500000, guid: 6b409d6d9706b41988cd9e32bd055751, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  logCsoundOutput: 0
-  mute: 0
-  processClipAudio: 0
-  loudVolumeWarning: 1
-  loudWarningThreshold: 10
-  csoundScore: 
-  environmentSettings: []
-  _csoundFileGUID: 86c1dee624590cf449e98b3c6618ca5a
-  _csoundString: "<CsoundSynthesizer>\r\n<CsOptions>\r\n;-odac\r\n ; -m0d\r\n</CsOptions>\r\n<CsInstruments>\r\n\r\n;sr
-    = 44100  ; Sample rate\r\nksmps = 32  ; Control signal samples per audio signal
-    sample\r\nnchnls = 1  ; Number of audio channels\r\n0dbfs\t=\t1\r\n\r\ninstr
-    1\r\n    kfreq init 440 ; initial frequency\r\n    kQ init 0.5 ; initial resonance\r\n   
-    kfc init 1000 ; initial cutoff frequency\r\n    kGain init 0.1 ; initial gain\r\n   
-    kRevTime init 2 ; initial reverb time\r\n\r\n    iAttack = p4\r\n    iDecay =
-    p5\r\n    iSustain = p6\r\n    iRelease = p7\r\n\r\n    kfreq chnget \"freq\"\r\n   
-    kQ chnget \"Q\"\r\n    kfc chnget \"fc\"\r\n    kGain chnget \"gain\"\r\n   
-    kRevTime chnget \"revtime\"\r\n\r\n    asig vco2 1.0, kfreq ; sawtooth oscillator
-    generates signal\r\n    afilter lowres asig, kfc, kQ ; lowpass filter, cutoff
-    'ifc' and resonance 'iQ'\r\n    arev reverb afilter, 2 ; reverb, 2 seconds\r\n\r\n   
-    iAmp init 1.0 ; initial amplitude\r\n\r\n    ; Steps through segments while a
-    gate from midikey2 in the score file is set to turnon \r\n    kEnv linsegr 0,
-    iAttack, iAmp, iDecay, iSustain, -1, iSustain, iRelease, 0   ; -1 means hold
-    until turnoff\r\n\r\n    out arev*kEnv*kGain ; sum signals, apply gain 'iGain',
-    and output\r\nendin\r\n\r\n</CsInstruments>\r\n<CsScore>\r\n; Play Instrument
-    1 infinitely\r\n;i1 0 z\r\n</CsScore>\r\n</CsoundSynthesizer>\r\n"
-  _csoundFileName: csound_synth.csd
-  _csoundAsset: {fileID: 102900000, guid: 86c1dee624590cf449e98b3c6618ca5a, type: 3}
-  _channels: []
-  _availableAudioChannels: []
-  _drawCsoundString: 1
-  _drawTestScore: 0
-  _drawSettings: 1
-  _drawChannels: 0
-  _drawAudioChannels: 0
-  _drawPresets: 0
-  _drawPresetsLoad: 0
-  _drawPresetsSave: 0
-  _drawPresetsImport: 0
-  _showRuntimeEnvironmentPath: 0
-  _currentPreset: 
-  _currentPresetSaveFolder: 
-  _currentPresetLoadFolder: 
---- !u!114 &211594071149825916
+  chuckMainInstance: {fileID: 0}
+  spatialize: 1
+--- !u!114 &3232080569721788308
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -267,7 +227,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7107237044999467779}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58da51730a72625429d18557d4da54fd, type: 3}
+  m_Script: {fileID: 11500000, guid: ff778a2ea9b87094bb8c0b39f1af037f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   radius: 1
@@ -275,10 +235,10 @@ MonoBehaviour:
   changePeriod: 1
   minFrequency: 220
   maxFrequency: 880
-  minCuttoff: 4
-  maxCuttoff: 10
-  minResonance: 1
-  maxResonance: 30
+  minCuttoff: 400
+  maxCuttoff: 1000
+  minResonance: 0
+  maxResonance: 0.99
   minReverb: 0.5
   maxReverb: 1
   gain: 0.1
