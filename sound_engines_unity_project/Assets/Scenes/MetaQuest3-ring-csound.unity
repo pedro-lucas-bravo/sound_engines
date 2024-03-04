@@ -260,6 +260,55 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5545149144574972019, guid: ea16c3c8c1688234fa81a4f39339bf1b, type: 3}
   m_PrefabInstance: {fileID: 922002243}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &95786846
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 95786848}
+  - component: {fileID: 95786847}
+  m_Layer: 0
+  m_Name: ExperimentHangProc
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &95786847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 95786846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3428f87bdf314544baad899e72c64009, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 1783734331}
+  profiler: {fileID: 1783734333}
+  trials: 100
+  addRemovePeriod: 1
+  samplesPerTrial: 30
+--- !u!4 &95786848
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 95786846}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &283872874
 GameObject:
   m_ObjectHideFlags: 0
@@ -1797,7 +1846,6 @@ GameObject:
   - component: {fileID: 1783734332}
   - component: {fileID: 1783734331}
   - component: {fileID: 1783734333}
-  - component: {fileID: 1783734334}
   m_Layer: 0
   m_Name: RingController
   m_TagString: Untagged
@@ -1817,7 +1865,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1eeab388e3f27ff499d86c194b4b5d09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioAgentPrefab: {fileID: 211594071149825916, guid: 731b23f0cda726f42b5674152d35c9d2, type: 3}
+  audioAgentPrefab: {fileID: 4858429152800764690, guid: 5aa7c47dd4eb7b54fa05f7a2aefd5486, type: 3}
   agentsSize: 0
   sizeLabel: {fileID: 283872876}
   pokeInteractableAdd: {fileID: 1299802904}
@@ -1854,25 +1902,7 @@ MonoBehaviour:
   numberOfMesurementsToShow: 3
   showInUI: 0
   statsLabel: {fileID: 1899255812}
-  saveToFile: 0
---- !u!114 &1783734334
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1783734330}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 462a16f566588e840b35f9233103dbf3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controller: {fileID: 1783734331}
-  profiler: {fileID: 1783734333}
-  numberOfSources: 30
-  numberOfTrialsPerSource: 5
-  numberOfUpDownRounds: 1
-  restPeriodSec: 1
+  saveToFile: 1
 --- !u!1 &1899255810
 GameObject:
   m_ObjectHideFlags: 0
@@ -2086,6 +2116,56 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a379f34d4f4f2e408d34f14bfb753ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &2135446622
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2135446624}
+  - component: {fileID: 2135446623}
+  m_Layer: 0
+  m_Name: ExperimentIncDe
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &2135446623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2135446622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 462a16f566588e840b35f9233103dbf3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 1783734331}
+  profiler: {fileID: 1783734333}
+  numberOfSources: 30
+  numberOfTrialsPerSource: 30
+  numberOfUpDownRounds: 1
+  restPeriodSec: 1
+--- !u!4 &2135446624
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2135446622}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -2094,6 +2174,8 @@ SceneRoots:
   - {fileID: 450349365}
   - {fileID: 32218657}
   - {fileID: 1783734332}
+  - {fileID: 2135446624}
+  - {fileID: 95786848}
   - {fileID: 1556532983}
   - {fileID: 1966935042}
   - {fileID: 1299802903}

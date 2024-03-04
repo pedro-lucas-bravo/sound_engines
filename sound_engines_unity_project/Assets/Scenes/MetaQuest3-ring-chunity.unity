@@ -1037,6 +1037,55 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7b47e36715521d4e8a30d2c5b6e83e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1115072780
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1115072782}
+  - component: {fileID: 1115072781}
+  m_Layer: 0
+  m_Name: ExperimentHangProc
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1115072781
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1115072780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3428f87bdf314544baad899e72c64009, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 1783734331}
+  profiler: {fileID: 1783734334}
+  trials: 100
+  addRemovePeriod: 1
+  samplesPerTrial: 30
+--- !u!4 &1115072782
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1115072780}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1151507320
 GameObject:
   m_ObjectHideFlags: 0
@@ -1683,6 +1732,56 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4453513310108136, guid: 835e735ca71bf78459fb2cababd74112, type: 3}
   m_PrefabInstance: {fileID: 1497754889}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1783485023
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1783485025}
+  - component: {fileID: 1783485024}
+  m_Layer: 0
+  m_Name: ExperimentIncDe
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &1783485024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1783485023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 462a16f566588e840b35f9233103dbf3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 1783734331}
+  profiler: {fileID: 1783734334}
+  numberOfSources: 30
+  numberOfTrialsPerSource: 30
+  numberOfUpDownRounds: 1
+  restPeriodSec: 1
+--- !u!4 &1783485025
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1783485023}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1783734330
 GameObject:
   m_ObjectHideFlags: 0
@@ -1694,7 +1793,6 @@ GameObject:
   - component: {fileID: 1783734332}
   - component: {fileID: 1783734331}
   - component: {fileID: 1783734334}
-  - component: {fileID: 1783734333}
   m_Layer: 0
   m_Name: RingController
   m_TagString: Untagged
@@ -1714,7 +1812,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1eeab388e3f27ff499d86c194b4b5d09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioAgentPrefab: {fileID: 3232080569721788308, guid: f70de506e986d26429e94615a07e2675, type: 3}
+  audioAgentPrefab: {fileID: 4858429152800764690, guid: a506b106e8a24f240afb33239d01e0e5, type: 3}
   agentsSize: 0
   sizeLabel: {fileID: 1204073060}
   pokeInteractableAdd: {fileID: 1299802904}
@@ -1734,24 +1832,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1783734333
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1783734330}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 462a16f566588e840b35f9233103dbf3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controller: {fileID: 1783734331}
-  profiler: {fileID: 1783734334}
-  numberOfSources: 50
-  numberOfTrialsPerSource: 5
-  numberOfUpDownRounds: 1
-  restPeriodSec: 1
 --- !u!114 &1783734334
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1769,7 +1849,7 @@ MonoBehaviour:
   numberOfMesurementsToShow: 3
   showInUI: 0
   statsLabel: {fileID: 2033783124}
-  saveToFile: 0
+  saveToFile: 1
 --- !u!1 &1896979979
 GameObject:
   m_ObjectHideFlags: 0
@@ -2250,6 +2330,8 @@ SceneRoots:
   - {fileID: 450349365}
   - {fileID: 32218657}
   - {fileID: 1783734332}
+  - {fileID: 1783485025}
+  - {fileID: 1115072782}
   - {fileID: 1966935042}
   - {fileID: 1299802903}
   - {fileID: 1223811006}

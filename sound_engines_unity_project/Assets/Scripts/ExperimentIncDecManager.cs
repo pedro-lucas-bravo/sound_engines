@@ -1,6 +1,7 @@
 using UnityEngine;
 
-public class ExperimentManager : MonoBehaviour
+//Experiment for incrementing and decrementing agents
+public class ExperimentIncDecManager : MonoBehaviour
 {
     public enum State { None, Playing, Resting}
 
@@ -11,12 +12,12 @@ public class ExperimentManager : MonoBehaviour
     public int numberOfUpDownRounds = 2;
     public float restPeriodSec = 1f;
 
-    private State currentState = State.None;
-    private float restTimer = 0f;
+    private State _currentState = State.None;
+    private float _restTimer = 0f;
 
     void Start() {
         //Wait the resting time to start the experiment
-        currentState = State.Resting;
+        _currentState = State.Resting;
     }
 
     public void SaveAndFinishRound() {
@@ -26,11 +27,11 @@ public class ExperimentManager : MonoBehaviour
 
     public void GoToNextRound() {
         profiler.NextRound();
-        currentState = State.Resting;
+        _currentState = State.Resting;
     }
 
     public void StopExperiment() {
-        currentState = State.None;
+        _currentState = State.None;
         Debug.LogWarning("Experiment finished");
         //Close the application on editor or android
         #if UNITY_EDITOR
@@ -42,19 +43,19 @@ public class ExperimentManager : MonoBehaviour
 
     private void  AddSource() {
         controller.AddAgent();
-        profiler.AddPlayingAudioSource();
+        profiler.AddCounterTrial();
     }
 
     private void RemoveSource() {
         controller.RemoveAgent();
-        profiler.RemovePlayingAudioSource();
+        profiler.RemoveCounterTrial();
     }
 
     private bool RoundIsUp => profiler.Round % 2 == 0;
     private int _agentOffset = 0;
 
     private void Update() {
-        switch(currentState) {
+        switch(_currentState) {
             case State.None:
                 break;
             case State.Playing:
@@ -64,12 +65,12 @@ public class ExperimentManager : MonoBehaviour
                     if (RoundIsUp && controller.AgentCount < numberOfSources) {
                         profiler.StopRecording(false);
                         AddSource();
-                        currentState = State.Resting;
+                        _currentState = State.Resting;
                     } else {
                         if (!RoundIsUp && controller.AgentCount > 0) {
                             profiler.StopRecording(false);
                             RemoveSource();
-                            currentState = State.Resting;
+                            _currentState = State.Resting;
                         } else {
                             SaveAndFinishRound();
                             if (profiler.Round < numberOfUpDownRounds - 1) {
@@ -87,11 +88,11 @@ public class ExperimentManager : MonoBehaviour
                 }
                 break;
             case State.Resting:
-                restTimer += Time.deltaTime;
-                if (restTimer >= restPeriodSec) {
+                _restTimer += Time.deltaTime;
+                if (_restTimer >= restPeriodSec) {
                     profiler.StartRecording();
-                    restTimer = 0f;
-                    currentState = State.Playing;
+                    _restTimer = 0f;
+                    _currentState = State.Playing;
                 }
                 break;
         }

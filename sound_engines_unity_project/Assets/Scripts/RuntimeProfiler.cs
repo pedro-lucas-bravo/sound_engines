@@ -204,10 +204,10 @@ public class RuntimeProfiler : MonoBehaviour {
         }
     }
 
-    public void AddPlayingAudioSource() {
+    public void AddCounterTrial() {
         _currentPlayingSources++;
     }
-    public void RemovePlayingAudioSource() {
+    public void RemoveCounterTrial() {
         _currentPlayingSources--;
     }
 
@@ -216,13 +216,14 @@ public class RuntimeProfiler : MonoBehaviour {
     }
 
     //Save all data rows to a csv file
-    public void SaveToFile(bool clearAllData = true) {
+    public void SaveToFile(string prefixFileName = "" , bool clearAllData = true) {
         if (saveToFile) {
             bool trySaving = true;
             string exception = "";
-            var fileName = _audioTimeStat + "_" + _date + "_buff_" + bufferSize + "_sr_" + sampleRate + "_round_" + _round + ".csv";
+            var fileName = prefixFileName + _audioTimeStat + "_" + _date + "_buff_" + bufferSize + "_sr_" + sampleRate + "_round_" + _round + ".csv";
             while (trySaving) {
                 try {
+                    //Note: Last column is usually teh number of sources, but for the experiment for hanging processes, it is the trial number
                     string header = "time,frame_t_ms,gc_mem_mb,system_mem_mb,audio_frame_t_ms,audio_memory_mb,sources\n";
                     string data = header;
                     for (int i = 0; i < allData.Count; i++) {
@@ -282,39 +283,39 @@ public class RuntimeProfiler : MonoBehaviour {
     }
 }
 
-public class AudioTimeMeasurer {
-    public static List<AudioTimeMeasurer> AllData = new List<AudioTimeMeasurer>();
-    public double LastFrameTime { 
-        get { 
-            lock (lockObject) {
-                return _lastFrameTime;
-            }
-        } 
-    }
+//public class AudioTimeMeasurer {
+//    public static List<AudioTimeMeasurer> AllData = new List<AudioTimeMeasurer>();
+//    public double LastFrameTime { 
+//        get { 
+//            lock (lockObject) {
+//                return _lastFrameTime;
+//            }
+//        } 
+//    }
 
-    private double _lastFrameTime;
+//    private double _lastFrameTime;
 
-    private object lockObject = new object();
+//    private object lockObject = new object();
 
-    private System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
+//    private System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
 
-    public AudioTimeMeasurer() {
-        AllData.Add(this);
-    }
+//    public AudioTimeMeasurer() {
+//        AllData.Add(this);
+//    }
 
-    public void TakeStartTime() {
-        stopwatch.Reset();
-        stopwatch.Start();
-    }
+//    public void TakeStartTime() {
+//        stopwatch.Reset();
+//        stopwatch.Start();
+//    }
 
-    public void TakeEndTime() {
-        stopwatch.Stop();
-        lock (lockObject) {
-            _lastFrameTime = stopwatch.Elapsed.TotalMilliseconds;
-        }
-    }
+//    public void TakeEndTime() {
+//        stopwatch.Stop();
+//        lock (lockObject) {
+//            _lastFrameTime = stopwatch.Elapsed.TotalMilliseconds;
+//        }
+//    }
 
-    public void OnDestroy() {
-        AllData.Remove(this);
-    }
-}
+//    public void OnDestroy() {
+//        AllData.Remove(this);
+//    }
+//}
