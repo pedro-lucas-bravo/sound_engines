@@ -120,7 +120,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.1
+  m_Volume: 0.01
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -234,13 +234,13 @@ MonoBehaviour:
     kQ chnget \"Q\"\r\n    kfc chnget \"fc\"\r\n    kGain chnget \"gain\"\r\n   
     kRevTime chnget \"revtime\"\r\n\r\n    asig vco2 1.0, kfreq ; sawtooth oscillator
     generates signal\r\n    afilter lowres asig, kfc, kQ ; lowpass filter, cutoff
-    'ifc' and resonance 'iQ'\r\n    arev reverb afilter, 2 ; reverb, 2 seconds\r\n\r\n   
-    iAmp init 1.0 ; initial amplitude\r\n\r\n    ; Steps through segments while a
-    gate from midikey2 in the score file is set to turnon \r\n    kEnv linsegr 0,
-    iAttack, iAmp, iDecay, iSustain, -1, iSustain, iRelease, 0   ; -1 means hold
-    until turnoff\r\n\r\n    out arev*kEnv*kGain ; sum signals, apply gain 'iGain',
-    and output\r\nendin\r\n\r\n</CsInstruments>\r\n<CsScore>\r\n; Play Instrument
-    1 infinitely\r\n;i1 0 z\r\n</CsScore>\r\n</CsoundSynthesizer>\r\n"
+    'ifc' and resonance 'iQ'; looks lile lowres is more efficient than moogladder\r\n   
+    arev reverb afilter, 2 ; reverb, 2 seconds\r\n\r\n    iAmp init 1.0 ; initial
+    amplitude\r\n\r\n    ; Steps through segments while a gate from midikey2 in the
+    score file is set to turnon \r\n    kEnv linsegr 0, iAttack, iAmp, iDecay, iSustain,
+    -1, iSustain, iRelease, 0   ; -1 means hold until turnoff\r\n\r\n    out arev*kEnv*kGain
+    ; sum signals, apply gain 'iGain', and output\r\nendin\r\n\r\n</CsInstruments>\r\n<CsScore>\r\n;
+    Play Instrument 1 infinitely\r\n;i1 0 z\r\n</CsScore>\r\n</CsoundSynthesizer>\r\n"
   _csoundFileName: csound_synth.csd
   _csoundAsset: {fileID: 102900000, guid: 86c1dee624590cf449e98b3c6618ca5a, type: 3}
   _channels: []

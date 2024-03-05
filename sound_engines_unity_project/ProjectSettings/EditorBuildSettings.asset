@@ -8,10 +8,10 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/MetaQuest3-SimpleTest.unity
     guid: 001c4c77deef02c4d89f864c9ebbc2f3
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/MetaQuest3-ring-csound.unity
     guid: d1a65670411f14e45846cf06ce9a67aa
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/MetaQuest3-ring-chunity.unity
     guid: 0dabc1a42a664a04eaf915ef10ed2535
   m_configObjects:
