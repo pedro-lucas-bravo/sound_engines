@@ -1865,11 +1865,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1eeab388e3f27ff499d86c194b4b5d09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioAgentPrefab: {fileID: 4858429152800764690, guid: 5aa7c47dd4eb7b54fa05f7a2aefd5486, type: 3}
+  audioAgentPrefab: {fileID: 211594071149825916, guid: 731b23f0cda726f42b5674152d35c9d2, type: 3}
   agentsSize: 0
   sizeLabel: {fileID: 283872876}
   pokeInteractableAdd: {fileID: 1299802904}
   pokeInteractableRemove: {fileID: 1223811007}
+  useMetaControls: 1
 --- !u!4 &1783734332
 Transform:
   m_ObjectHideFlags: 0
@@ -2147,7 +2148,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller: {fileID: 1783734331}
   profiler: {fileID: 1783734333}
-  numberOfSources: 30
+  numberOfSources: 50
   numberOfTrialsPerSource: 30
   numberOfUpDownRounds: 1
   restPeriodSec: 1

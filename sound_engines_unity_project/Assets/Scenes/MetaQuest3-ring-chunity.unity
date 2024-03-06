@@ -1053,7 +1053,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1115072781
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1763,7 +1763,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller: {fileID: 1783734331}
   profiler: {fileID: 1783734334}
-  numberOfSources: 30
+  numberOfSources: 50
   numberOfTrialsPerSource: 30
   numberOfUpDownRounds: 1
   restPeriodSec: 1
@@ -1812,11 +1812,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1eeab388e3f27ff499d86c194b4b5d09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioAgentPrefab: {fileID: 4858429152800764690, guid: a506b106e8a24f240afb33239d01e0e5, type: 3}
+  audioAgentPrefab: {fileID: 3232080569721788308, guid: f70de506e986d26429e94615a07e2675, type: 3}
   agentsSize: 0
   sizeLabel: {fileID: 1204073060}
   pokeInteractableAdd: {fileID: 1299802904}
   pokeInteractableRemove: {fileID: 1223811007}
+  useMetaControls: 1
 --- !u!4 &1783734332
 Transform:
   m_ObjectHideFlags: 0

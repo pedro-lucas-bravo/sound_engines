@@ -12,6 +12,7 @@ public class RingController : MonoBehaviour
     public TMP_Text sizeLabel;
     public PokeInteractable pokeInteractableAdd;
     public PokeInteractable pokeInteractableRemove;
+    public bool useMetaControls = false;
 
     public int AgentCount {
         get {
@@ -60,12 +61,12 @@ public class RingController : MonoBehaviour
     {
         //OVRInput.Update();
         if (Input.GetKeyDown(KeyCode.A) 
-            /*|| OVRInput.GetDown(OVRInput.Button.One)*/) {
+            || (useMetaControls && OVRInput.GetDown(OVRInput.Button.One))) {
             AddAgent();
         }
 
-        if(Input.GetKeyDown(KeyCode.D) 
-            /*|| OVRInput.GetDown(OVRInput.Button.Two)) && _agentCount > 0*/) {
+        if((Input.GetKeyDown(KeyCode.D) 
+            || (useMetaControls && OVRInput.GetDown(OVRInput.Button.Two))) && _agentCount > 0) {
             RemoveAgent();
         }
 
