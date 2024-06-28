@@ -226,9 +226,9 @@ MonoBehaviour:
   _csoundFileGUID: e54265121badcf84a8ac8253e0c25d87
   _csoundString: "<CsoundSynthesizer>\r\n<CsOptions>\r\n;-n -d -m0d \r\n;-odac\r\n
     ; -m0d\r\n</CsOptions>\r\n<CsInstruments>\r\n\r\nsr = 44100  ; Sample rate\r\nksmps
-    = 32  ; Control signal samples per audio signal sample\r\nnchnls = 2  ; Number
-    of audio channels\r\n0dbfs\t=\t1 \r\n\r\ninstr 1\r\n  kFreq init 440\r\n  kFreq
-    chnget \"freq\"\r\n  aOut oscili 1.0, kFreq\r\n  outs aOut, aOut\r\nendin\r\n\r\n</CsInstruments>\r\n<CsScore>\r\n;
+    = 32  ; Control signal samples per audio signal sample\r\nnchnls = 1  ; Number
+    of audio channels\r\n0dbfs\t=\t1 \r\n\r\ninstr 1  \r\n  kFreq init 440\r\n\r\n 
+    kFreq chnget \"freq\"  \r\n\r\n  aOut oscili 1, kFreq\r\n  outs aOut\r\nendin\r\n\r\n</CsInstruments>\r\n<CsScore>\r\n;
     Play Instrument 1 infinitely\r\ni1 0 z\r\n</CsScore>\r\n</CsoundSynthesizer>\r\n"
   _csoundFileName: csound_sine.csd
   _csoundAsset: {fileID: 102900000, guid: e54265121badcf84a8ac8253e0c25d87, type: 3}
@@ -259,7 +259,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2193b28090c1bb438e8610069a7078f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minFrequency: 220
-  maxFrequency: 1760
   radius: 0.5
   speed: 2
+  minFrequency: 220
+  maxFrequency: 1760
