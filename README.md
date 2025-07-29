@@ -69,6 +69,17 @@ void OnAudioFilterRead(float[] data, int channels)
 }
 
 ```
+5. At the end of the *CsoundUnity* class add an **OnDestroy** function so that Unity remove the *AudioTimeMeasurer* when the *CsoundUnity* object is removed from the scene:
+
+```
+void OnDestroy()
+{
+    if (_audioTimeMeasurer != null){
+        _audioTimeMeasurer.OnDestroy();
+        _audioTimeMeasurer = null;
+    }
+}
+```
 
 That's it. Now you shouldn't get any errors.
 
